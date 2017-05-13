@@ -37,11 +37,15 @@ h1 {
 
 /* http://tobiasahlin.com/spinkit/ */
 
-#spinner {
+#refresh-spinner {
+  display: none;
+}
+
+.spinner {
   margin-left: 1rem;
 }
 
-#spinner > div {
+.spinner > div {
   width: .5rem;
   height: .5rem;
   background-color: #333;
@@ -52,12 +56,12 @@ h1 {
   animation: sk-bouncedelay 1.4s infinite ease-in-out both;
 }
 
-#spinner .bounce1 {
+.spinner .bounce1 {
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
 
-#spinner .bounce2 {
+.spinner .bounce2 {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }

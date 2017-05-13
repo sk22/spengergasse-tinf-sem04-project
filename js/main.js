@@ -7,7 +7,9 @@ window.addEventListener('load', function () {
   var submitPost = document.getElementById('submit-post')
   var items = document.getElementById('items')
   var refresh = document.getElementById('refresh')
+  var refreshSpinner = document.getElementById('refresh-spinner')
 
+  disable(refreshSpinner)
   refresh.addEventListener('click', loadNewest)
   loadMoreButton.addEventListener('click', loadMore)
   submitPost.addEventListener('click', function(e) {
@@ -15,7 +17,7 @@ window.addEventListener('load', function () {
     formSubmit()
   })
   
-  loadItems().then(disableSpinner)
+  loadItems().then(function () { disable(spinner) })
 
   function loadItems() {
     return fetch('api/get-posts.php?limit=' + fetchLimit)
@@ -38,11 +40,11 @@ window.addEventListener('load', function () {
         return result.map(makeElement).forEach(function (element) {
           items.appendChild(element)
         })
-      }).then(disableSpinner)
+      }).then(function() { disable(spinner) })
   }
 
   function loadNewest() {
-    enableSpinner()
+    enable(refreshSpinner)
     fetch('api/max-id.php').then(parseJSON)
       .then(function (result) {
         var dbMax = result.max
@@ -54,7 +56,7 @@ window.addEventListener('load', function () {
               .forEach(function (element) {
                 items.insertBefore(element, items.firstChild)
               })
-          }).then(disableSpinner)
+          }).then(function () { disable(refreshSpinner) })
       })
   }
 
@@ -73,12 +75,12 @@ window.addEventListener('load', function () {
     return res.json()
   }
 
-  function enableSpinner() {
-    spinner.style.display = 'initial'
+  function enable(element) {
+    element.style.display = 'inline-block'
   }
 
-  function disableSpinner() {
-    spinner.style.display = 'none'
+  function disable(element) {
+    element.style.display = 'none'
   }
 
   function makeElement(item) {
