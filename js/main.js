@@ -1,6 +1,6 @@
 window.addEventListener('load', function () {
   var maxID = 0
-  var fetchLimit = 5
+  var fetchLimit = 15
   var spinner = document.getElementById('spinner')
   var loadMoreButton = document.getElementById('load-more')
   var form = document.getElementById('post-form')
