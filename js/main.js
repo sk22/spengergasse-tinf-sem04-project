@@ -66,6 +66,7 @@ window.addEventListener('load', function () {
     }).then(function () {
       loadNewest()
     })
+    document.getElementById('text').value = ''
   }
 
   function parseJSON(res) {
