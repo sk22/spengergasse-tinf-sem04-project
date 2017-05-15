@@ -41,6 +41,32 @@ h1 {
   display: none;
 }
 
+#items {
+  overflow-y: hidden;
+}
+
+#items > .list-group-item {
+  position: relative;  
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  animation-duration: .5s;
+  will-change: top;
+  animation-name: slidein;
+}
+
+@keyframes slidein {
+  from {
+    top: -10rem;
+  }
+
+  to {
+    top: 0;
+  }
+}
+
 .spinner {
   margin-left: 1rem;
 }

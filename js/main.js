@@ -11,6 +11,7 @@ window.addEventListener('load', function () {
 
   disable(refreshSpinner)
   refresh.addEventListener('click', loadNewest)
+  setInterval(loadNewest, 2000)
   loadMoreButton.addEventListener('click', loadMore)
   submitPost.addEventListener('click', function(e) {
     e.preventDefault()

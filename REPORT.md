@@ -3,8 +3,13 @@
 Since a weekly report is demanded, here are the changes that are made over
 those periods of time.
 
+## Milestones
+
+* `2017-05-12` API is ready to be used by clients
+* `2017-05-12` App is usable by end users
+
 ## Calendar Week 19
-last update: 2017-05-12
+last update: 2017-05-13
 
 * Created the database using PhpMyAdmin
 * Implemented a PHP API that interfaces with the database
@@ -13,7 +18,9 @@ last update: 2017-05-12
 * Designed a HTML User Interface with the help of Bootstrap, SpinKit and
   Material Icons
 
-### Milestones
+## Calendar Week 20
+last update: 2017-05-15
 
-* `2017-05-12` API is ready to be used by clients
-* `2017-05-12` App is usable by end users
+* Tweaked styles
+* Implemented auto update (every 2 seconds), using `setInterval`
+* Tweaked message send form
