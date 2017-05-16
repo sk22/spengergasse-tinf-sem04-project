@@ -7,6 +7,8 @@ those periods of time.
 
 * `2017-05-12` API is ready to be used by clients
 * `2017-05-12` App is usable by end users
+* `2017-05-15` Implemented auto update
+* `2017-05-16` Added delete button
 
 ## Calendar Week 19
 last update: 2017-05-13
@@ -19,8 +21,9 @@ last update: 2017-05-13
   Material Icons
 
 ## Calendar Week 20
-last update: 2017-05-15
+last update: 2017-05-16
 
 * Tweaked styles
 * Implemented auto update (every 2 seconds), using `setInterval`
 * Tweaked message send form
+* Posts are now deletable

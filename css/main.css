@@ -67,6 +67,13 @@ h1 {
   }
 }
 
+.delete-icon {
+  font-size: 1.2rem;
+  padding: .4rem 0;
+  background: none;
+  border: none;
+}
+
 .spinner {
   margin-left: 1rem;
 }

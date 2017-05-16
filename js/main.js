@@ -66,10 +66,12 @@ window.addEventListener('load', function () {
     fetch('api/add-post.php', {
       method: 'post',
       body: formData
-    }).then(function () {
-      loadNewest()
-    })
+    }).then(loadNewest)
     document.getElementById('text').value = ''
+  }
+
+  function deletePost(item) {
+    fetch('api/delete-post.php?id=' + item.id).then(loadNewest)
   }
 
   function parseJSON(res) {
@@ -89,17 +91,17 @@ window.addEventListener('load', function () {
     var items = document.getElementById('items')
 
     var content = document.createElement('div')
-    content.className = 'd-flex w-100'
+    content.className = 'd-flex w-100 justify-content-between'
 
     var text = document.createElement('p')
     text.textContent = item.text
 
-    // var number = document.createElement('strong')
-    // number.className = 'number'
-    // number.textContent = item.id
+    var deleteIcon = document.createElement('button')
+    deleteIcon.className = 'material-icons delete-icon'
+    deleteIcon.textContent = 'delete'
 
-    // content.appendChild(number)
     content.appendChild(text)
+    content.appendChild(deleteIcon)
     
     var meta = document.createElement('div')
     meta.className = 'd-flex w-100 justify-content-between'
@@ -116,6 +118,11 @@ window.addEventListener('load', function () {
     element.appendChild(content)
     element.appendChild(meta)
     element.className = 'list-group-item'
+
+    deleteIcon.addEventListener('click', function () {
+      element.remove()  
+      deletePost(item)
+    })
     
     return element
   }
