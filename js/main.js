@@ -7,19 +7,27 @@ window.addEventListener('load', function () {
   var loginForm = document.getElementById('login-form')
   var logoutButton = document.getElementById('logout')
   var registerButton = document.getElementById('register')
-  var deleteAccountButton = document.getElementById('delete-account')
   var submitPost = document.getElementById('submit-post')
   var items = document.getElementById('items')
   var refresh = document.getElementById('refresh')
   var refreshSpinner = document.getElementById('refresh-spinner')
   var errorAlert = document.getElementById('error')
-
-  logout()
+  var openDeleteAccount = document.getElementById('open-delete-account')
+  var deleteAccountForm = document.getElementById('delete-account-form')
+  var username
   
   disableSpinner(refreshSpinner)
   refresh.addEventListener('click', loadNewest)
   setInterval(loadNewest, 2000)
   loadMoreButton.addEventListener('click', loadMore)
+
+  openDeleteAccount.addEventListener('click', function () {
+    if (deleteAccountForm.classList.contains('hidden')) {
+      deleteAccountForm.classList.remove('hidden')
+    } else {
+      deleteAccountForm.classList.add('hidden')
+    }
+  })
 
   postForm.addEventListener('submit', function (e) {
     e.preventDefault()
@@ -35,8 +43,10 @@ window.addEventListener('load', function () {
   })
 
   logoutButton.addEventListener('click', logout)
-  deleteAccountButton.addEventListener('click', function () {
-    deleteAccount().then(logout)
+
+  deleteAccountForm.addEventListener('submit', function (e) {
+    e.preventDefault()
+    deleteAccount(new FormData(deleteAccountForm))
   })
 
   registerButton.addEventListener('click', function () {
@@ -48,6 +58,7 @@ window.addEventListener('load', function () {
   function setError(err) {
     errorAlert.classList.remove('hidden')
     errorAlert.textContent = err.message
+    return err
   }
 
   function unsetError() {
@@ -67,11 +78,14 @@ window.addEventListener('load', function () {
     })
   }
 
-  function deleteAccount() {
+  function deleteAccount(data) {
     return fetch('api/delete-account.php', {
+      method: 'post',
+      body: data,
       credentials: 'same-origin'
     }).then(function (res) {
       if (!res.ok) return res.json().then(setError)
+      logout()
       unsetError()
     })
   }
@@ -85,9 +99,10 @@ window.addEventListener('load', function () {
       if (!res.ok) return parseJSON(res).then(setError)
       parseJSON(res).then(function (user) {
         unsetError()
+        username = user.username
         document.getElementById('post-form').classList.remove('hidden')
         document.getElementById('login-form').classList.add('hidden')
-        document.getElementById('delete-account').classList.remove('hidden')
+        document.getElementById('open-delete-account').classList.remove('hidden')
         document.getElementById('logout').classList.remove('hidden')
         document.getElementById('user').value = user.username
         document.getElementById('password').value = ''
@@ -101,7 +116,7 @@ window.addEventListener('load', function () {
     }).then(function () {
       document.getElementById('post-form').classList.add('hidden')
       document.getElementById('login-form').classList.remove('hidden')
-      document.getElementById('delete-account').classList.add('hidden')
+      document.getElementById('open-delete-account').classList.add('hidden')
       document.getElementById('logout').classList.add('hidden')
       document.getElementById('user').value = ''
       window.scrollTo(0, 0)
@@ -195,7 +210,7 @@ window.addEventListener('load', function () {
     deleteIcon.textContent = 'delete'
 
     content.appendChild(text)
-    // content.appendChild(deleteIcon)
+    // if (username === item.username) content.appendChild(deleteIcon)
     
     var meta = document.createElement('div')
     meta.className = 'd-flex w-100 justify-content-between'

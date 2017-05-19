@@ -17,7 +17,7 @@ h1 {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .number {
@@ -124,6 +124,10 @@ h1 {
 
 .account-bottom-buttons {
   margin-top: 1rem;
+}
+
+#delete-account-password {
+  margin-right: .5rem;
 }
 
 @media screen and (min-width: 576px) {

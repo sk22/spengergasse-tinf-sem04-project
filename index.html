@@ -75,10 +75,27 @@
               </span>
             </div>
             <div class="account-bottom-buttons d-flex flex-column flex-sm-row">
-              <input class="btn" type="button" id="delete-account" class="hidden" value="Delete Account">
-              <input class="btn" type="button" id="logout" class="hidden" value="Logout">
+              <input class="btn hidden" type="button" id="open-delete-account" value="Delete Account">
+              <input class="btn hidden" type="button" id="logout" value="Logout">
             </div>
           </div>
+        </section>
+        <section>
+          <form id="delete-account-form" class="d-flex hidden">
+            <input
+              class="form-control"
+              type="password"
+              placeholder="Password"
+              name="password"
+              id="delete-account-password"
+            >
+            <input
+              type="submit"
+              class="btn btn-danger"
+              id="delete-account"
+              value="Delete Account"
+            >
+          </form>
         </section>
       </main>
     </div>

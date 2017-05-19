@@ -9,7 +9,7 @@ $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 $stmt = $db->prepare(
   "SELECT `posts`.`id`, `date`, `text`, `user`, `username`
     FROM `posts`
-    INNER JOIN `users` ON `posts`.`user` = `users`.`id`
+    LEFT JOIN `users` ON `posts`.`user` = `users`.`id`
     ORDER BY `id` DESC
     LIMIT ?, ?"
 );
