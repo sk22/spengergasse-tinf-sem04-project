@@ -117,3 +117,22 @@ h1 {
     transform: scale(1.0);
   }
 }
+
+.account-bottom-buttons input {
+  margin-top: .5rem;
+}
+
+.account-bottom-buttons {
+  margin-top: 1rem;
+}
+
+@media screen and (min-width: 576px) {
+  .account-bottom-buttons input {
+    margin-top: 0;
+    margin-left: .5rem;
+  }
+
+  .account-bottom-buttons {
+    margin-top: 0;
+  }
+}

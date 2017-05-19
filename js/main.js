@@ -13,6 +13,8 @@ window.addEventListener('load', function () {
   var refresh = document.getElementById('refresh')
   var refreshSpinner = document.getElementById('refresh-spinner')
   var errorAlert = document.getElementById('error')
+
+  logout()
   
   disableSpinner(refreshSpinner)
   refresh.addEventListener('click', loadNewest)
@@ -85,6 +87,7 @@ window.addEventListener('load', function () {
         unsetError()
         document.getElementById('post-form').classList.remove('hidden')
         document.getElementById('login-form').classList.add('hidden')
+        document.getElementById('delete-account').classList.remove('hidden')
         document.getElementById('logout').classList.remove('hidden')
         document.getElementById('user').value = user.username
         document.getElementById('password').value = ''
@@ -98,6 +101,7 @@ window.addEventListener('load', function () {
     }).then(function () {
       document.getElementById('post-form').classList.add('hidden')
       document.getElementById('login-form').classList.remove('hidden')
+      document.getElementById('delete-account').classList.add('hidden')
       document.getElementById('logout').classList.add('hidden')
       document.getElementById('user').value = ''
       window.scrollTo(0, 0)
