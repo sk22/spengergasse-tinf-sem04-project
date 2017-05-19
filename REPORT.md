@@ -9,6 +9,7 @@ those periods of time.
 * `2017-05-12` App is usable by end users
 * `2017-05-15` Implemented auto update
 * `2017-05-16` Added delete button
+* `2017-05-19` Added login system
 
 ## Calendar Week 19
 last update: 2017-05-13
@@ -26,4 +27,4 @@ last update: 2017-05-16
 * Tweaked styles
 * Implemented auto update (every 2 seconds), using `setInterval`
 * Tweaked message send form
-* Posts are now deletable
+* Implemented login system using separate table, PHP's session cookie and fetch

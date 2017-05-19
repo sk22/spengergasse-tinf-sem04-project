@@ -4,4 +4,4 @@ require_once('./db.php');
 require_once('./api.php');
 
 $stmt = $db->prepare("SELECT MAX(`id`) as `max` FROM `posts`");
-result(fetch($stmt));
+result($db->fetch($stmt));

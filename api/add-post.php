@@ -3,13 +3,18 @@
 require_once('./db.php');
 require_once('./api.php');
 
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+  exit(result(error('Not logged in')));
+}
+
 if (isset($_POST['text']) && strlen(trim($_POST['text']))) {
   $text = trim($_POST['text']);
-  $user = isset($_POST['user']) && strlen($_POST['user'])
-    ? $_POST['user'] : null;
+  $user_id = $_SESSION['user_id'];
 
-  $stmt = $db->prepare("INSERT INTO `posts` (`text`, `user`) VALUES (?, ?)");
-  result(fetch($stmt, [$text, $user]));
+  $query = "INSERT INTO `posts` (`text`, `user`) VALUES (?, ?)";
+  exit(result($db->fetch($query, [$text, $user_id])));
 } else {
-  http_response_code(400);
+  exit(result(error('Text is missing')));
 }

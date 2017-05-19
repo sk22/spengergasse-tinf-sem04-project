@@ -3,22 +3,106 @@ window.addEventListener('load', function () {
   var fetchLimit = 15
   var spinner = document.getElementById('spinner')
   var loadMoreButton = document.getElementById('load-more')
-  var form = document.getElementById('post-form')
+  var postForm = document.getElementById('post-form')
+  var loginForm = document.getElementById('login-form')
+  var logoutButton = document.getElementById('logout')
+  var registerButton = document.getElementById('register')
+  var deleteAccountButton = document.getElementById('delete-account')
   var submitPost = document.getElementById('submit-post')
   var items = document.getElementById('items')
   var refresh = document.getElementById('refresh')
   var refreshSpinner = document.getElementById('refresh-spinner')
-
-  disable(refreshSpinner)
+  var errorAlert = document.getElementById('error')
+  
+  disableSpinner(refreshSpinner)
   refresh.addEventListener('click', loadNewest)
   setInterval(loadNewest, 2000)
   loadMoreButton.addEventListener('click', loadMore)
-  submitPost.addEventListener('click', function(e) {
+
+  postForm.addEventListener('submit', function (e) {
     e.preventDefault()
-    formSubmit()
+    var data = new FormData(postForm)
+    addPost(data).then(function () {
+      document.getElementById('text').value = ''
+    })
+  })
+
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault()
+    login(new FormData(loginForm))
+  })
+
+  logoutButton.addEventListener('click', logout)
+  deleteAccountButton.addEventListener('click', function () {
+    deleteAccount().then(logout)
+  })
+
+  registerButton.addEventListener('click', function () {
+    register(new FormData(loginForm))
   })
   
-  loadItems().then(function () { disable(spinner) })
+  loadItems().then(function () { disableSpinner(spinner) })
+
+  function setError(err) {
+    errorAlert.classList.remove('hidden')
+    errorAlert.textContent = err.message
+  }
+
+  function unsetError() {
+    errorAlert.classList.add('hidden')
+    errorAlert.textContent = ''
+  }
+
+  function register(data) {
+    return fetch('api/register.php', {
+      method: 'post',
+      body: data,
+      credentials: 'same-origin'
+    }).then(function (res) {
+      if (!res.ok) return res.json().then(setError)
+      unsetError()
+      login(data)
+    })
+  }
+
+  function deleteAccount() {
+    return fetch('api/delete-account.php', {
+      credentials: 'same-origin'
+    }).then(function (res) {
+      if (!res.ok) return res.json().then(setError)
+      unsetError()
+    })
+  }
+
+  function login(data) {
+    return fetch('api/login.php', {
+      method: 'post',
+      body: data,
+      credentials: 'same-origin'
+    }).then(function (res) {
+      if (!res.ok) return parseJSON(res).then(setError)
+      parseJSON(res).then(function (user) {
+        unsetError()
+        document.getElementById('post-form').classList.remove('hidden')
+        document.getElementById('login-form').classList.add('hidden')
+        document.getElementById('logout').classList.remove('hidden')
+        document.getElementById('user').value = user.username
+        document.getElementById('password').value = ''
+      })
+    })
+  }
+
+  function logout() {
+    return fetch('api/logout.php', {
+      credentials: 'same-origin'
+    }).then(function () {
+      document.getElementById('post-form').classList.add('hidden')
+      document.getElementById('login-form').classList.remove('hidden')
+      document.getElementById('logout').classList.add('hidden')
+      document.getElementById('user').value = ''
+      window.scrollTo(0, 0)
+    })
+  }
 
   function loadItems() {
     return fetch('api/get-posts.php?limit=' + fetchLimit)
@@ -30,7 +114,6 @@ window.addEventListener('load', function () {
       })
   }
 
-
   function loadMore() {
     loadNewest()
     spinner.style.display = 'initial'
@@ -41,11 +124,13 @@ window.addEventListener('load', function () {
         return result.map(makeElement).forEach(function (element) {
           items.appendChild(element)
         })
-      }).then(function() { disable(spinner) })
+      }).then(function() {
+        disableSpinner(spinner)
+      })
   }
 
   function loadNewest() {
-    enable(refreshSpinner)
+    enableSpinner(refreshSpinner)
     fetch('api/max-id.php').then(parseJSON)
       .then(function (result) {
         var dbMax = result.max
@@ -57,17 +142,22 @@ window.addEventListener('load', function () {
               .forEach(function (element) {
                 items.insertBefore(element, items.firstChild)
               })
-          }).then(function () { disable(refreshSpinner) })
+          }).then(function () {
+            disableSpinner(refreshSpinner)
+          })
       })
   }
 
-  function formSubmit() {
-    var formData = new FormData(form)
-    fetch('api/add-post.php', {
+  function addPost(data) {
+    return fetch('api/add-post.php', {
       method: 'post',
-      body: formData
-    }).then(loadNewest)
-    document.getElementById('text').value = ''
+      body: data,
+      credentials: 'same-origin'
+    }).then(function (res) {
+      if (!res.ok) return parseJSON(res).then(setError)
+      loadNewest()
+      unsetError()
+    })
   }
 
   function deletePost(item) {
@@ -78,11 +168,11 @@ window.addEventListener('load', function () {
     return res.json()
   }
 
-  function enable(element) {
+  function enableSpinner(element) {
     element.style.display = 'inline-block'
   }
 
-  function disable(element) {
+  function disableSpinner(element) {
     element.style.display = 'none'
   }
 
@@ -101,13 +191,13 @@ window.addEventListener('load', function () {
     deleteIcon.textContent = 'delete'
 
     content.appendChild(text)
-    content.appendChild(deleteIcon)
+    // content.appendChild(deleteIcon)
     
     var meta = document.createElement('div')
     meta.className = 'd-flex w-100 justify-content-between'
 
     var user = document.createElement('small')
-    user.textContent = item.user || 'Anonymous'
+    user.textContent = item.username || 'Anonymous'
     var date = document.createElement('small')
     date.textContent = item.date
 

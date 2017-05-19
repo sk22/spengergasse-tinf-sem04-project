@@ -13,18 +13,41 @@
     <div class="container">
       <main>
         <h1>Posts</h1>
+        <div class="alert alert-danger hidden" id="error" role="alert"></div>
         <section>
-          <form id="post-form">
+          <form id="login-form">
             <div class="form-group">
-              <label for="user">User</label>
-              <input type="text" class="form-control" id="user" name="user">
+              <label for="username">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                name="username"
+              >
+            </div>
+            <label for="password">Password</label>
+            <div class="form-group">
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+              >
+            </div>
+            <input class="btn btn-primary" type="submit" value="Login">
+            <input class="btn" type="button" id="register" value="Register">
+          </form>
+          <form id="post-form" class="hidden">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" class="form-control" id="user" disabled>
             </div>
             <div class="form-group">
               <label for="text">Text</label>
               <input id="text" class="form-control" name="text">
             </div>
             <div class="d-flex w-100 justify-content-between">
-              <button class="btn btn-default" type="submit" id="submit-post">
+              <button class="btn btn-primary" type="submit" id="submit-post">
                 Submit
               </button>
               <div class="d-flex align-items-center">
@@ -42,12 +65,20 @@
         </section>
         <section>
           <div class="list-group" id="items"></div>
-          <button class="btn" id="load-more">Load more...</button>
-          <span id="spinner" class="spinner">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-          </span>
+          <div class="d-flex w-100 justify-content-between">
+            <div>
+              <button class="btn" id="load-more">Load more...</button>
+              <span id="spinner" class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+              </span>
+            </div>
+            <div>
+              <input class="btn" type="button" id="delete-account" value="Delete Account">
+              <input class="btn" type="button" id="logout" value="Logout">
+            </div>
+          </div>
         </section>
       </main>
     </div>
